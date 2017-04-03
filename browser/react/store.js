@@ -1,4 +1,14 @@
-import { createStore } from 'redux';
-import reducer from './reducers/root-reducers'
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 
-export default createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+import lyricsReducer from './reducers/lyrics-reducer';
+import playerReducer from './reducers/player-reducer';
+
+export default createStore(
+    combineReducers({
+        lyrics: lyricsReducer,
+        player: playerReducer
+    }),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(createLogger(), thunkMiddleware));
